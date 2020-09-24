@@ -15,7 +15,16 @@ const keyboard = {
     capsLock: false,
   },
 
-  init() {},
+  init() {
+    this.elements.main = document.createElement("div");
+    this.elements.keysContainer = document.createElement("div");
+
+    this.elements.main.classList.add("keyboard", "1keyboard--hidden");
+    this.elements.keysContainer.classList.add("keyboad__keys");
+
+    this.elements.main.appendChild(this.elements.keysContainer);
+    document.body.appendChild(this.elements.main);
+  },
 
   _createKeys() {},
 

@@ -6,8 +6,8 @@ const keyboard = {
   },
 
   eventHandlers: {
-    onInput: null,
-    onClose: null,
+    oninput: null,
+    onclose: null,
   },
 
   properties: {
@@ -29,6 +29,14 @@ const keyboard = {
 
     this.elements.main.appendChild(this.elements.keysContainer);
     document.body.appendChild(this.elements.main);
+
+    document.querySelectorAll(".use-keyboard-input").forEach((element) => {
+      element.addEventListener("focus", () => {
+        this.open(element.value, (currentValue) => {
+          element.value = currentValue;
+        });
+      });
+    });
   },
 
   _createKeys() {
@@ -105,7 +113,7 @@ const keyboard = {
               0,
               this.properties.value.length - 1
             );
-            this._triggerEvent("onInput");
+            this._triggerEvent("oninput");
           });
 
           break;
@@ -133,7 +141,7 @@ const keyboard = {
 
           keyElement.addEventListener("click", () => {
             this.properties.value += "\n";
-            this._triggerEvent("onInput");
+            this._triggerEvent("oninput");
           });
 
           break;
@@ -144,7 +152,7 @@ const keyboard = {
 
           keyElement.addEventListener("click", () => {
             this.properties.value += " ";
-            this._triggerEvent("onInput");
+            this._triggerEvent("oninput");
           });
 
           break;
@@ -158,7 +166,7 @@ const keyboard = {
 
           keyElement.addEventListener("click", () => {
             this.close();
-            this._triggerEvent("onClose");
+            this._triggerEvent("onclose");
           });
 
           break;
@@ -170,8 +178,10 @@ const keyboard = {
             this.properties.value += this.properties.capsLock
               ? key.toUpperCase()
               : key.toLowerCase();
-            this._triggerEvent("onInput");
+            this._triggerEvent("oninput");
           });
+
+          break;
       }
 
       fragment.appendChild(keyElement);
@@ -201,22 +211,21 @@ const keyboard = {
     }
   },
 
-  open(initialValue, onInput, onClose) {
+  open(initialValue, oninput, onclose) {
     this.properties.value = initialValue || "";
-    this.eventHandlers.onInput = onInput;
-    this.eventHandlers.onClose = onClose;
+    this.eventHandlers.oninput = oninput;
+    this.eventHandlers.onclose = onclose;
     this.elements.main.classList.remove("keyboard--hidden");
   },
 
   close() {
-    this.value = "";
-    this.eventHandlers.onInput = onInput;
-    this.eventHandlers.onClose = onClose;
+    this.properties.value = "";
+    this.eventHandlers.oninput = oninput;
+    this.eventHandlers.onclose = onclose;
     this.elements.main.classList.add("keyboard--hidden");
   },
 };
 
 window.addEventListener("DOMContentLoaded", () => {
   keyboard.init();
-  keyboard.open();
 });

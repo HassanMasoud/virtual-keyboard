@@ -19,7 +19,7 @@ const keyboard = {
     this.elements.main = document.createElement("div");
     this.elements.keysContainer = document.createElement("div");
 
-    this.elements.main.classList.add("keyboard", "1keyboard--hidden");
+    this.elements.main.classList.add("keyboard", "keyboard--hidden");
     this.elements.keysContainer.classList.add("keyboard__keys");
     this.elements.keysContainer.appendChild(this._createKeys());
 
@@ -185,7 +185,9 @@ const keyboard = {
   },
 
   _triggerEvent(handlerName) {
-    console.log(`Event Triggered! Event Name: ${handlerName}`);
+    if (typeof this.eventHandlers[handlerName] == "function") {
+      this.eventHandlers[handlerName](this.properties.value);
+    }
   },
 
   _toggleCapsLock() {
@@ -199,9 +201,11 @@ const keyboard = {
     }
   },
 
-  open(initialValue, onInput, onClose) {},
+  open() {},
 
   close() {},
 };
 
-window.addEventListener("DOMContentLoaded", () => keyboard.init());
+window.addEventListener("DOMContentLoaded", () => {
+  keyboard.init();
+});

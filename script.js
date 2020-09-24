@@ -201,11 +201,22 @@ const keyboard = {
     }
   },
 
-  open() {},
+  open(initialValue, onInput, onClose) {
+    this.properties.value = initialValue || "";
+    this.eventHandlers.onInput = onInput;
+    this.eventHandlers.onClose = onClose;
+    this.elements.main.classList.remove("keyboard--hidden");
+  },
 
-  close() {},
+  close() {
+    this.value = "";
+    this.eventHandlers.onInput = onInput;
+    this.eventHandlers.onClose = onClose;
+    this.elements.main.classList.add("keyboard--hidden");
+  },
 };
 
 window.addEventListener("DOMContentLoaded", () => {
   keyboard.init();
+  keyboard.open();
 });
